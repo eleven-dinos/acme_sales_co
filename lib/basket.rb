@@ -6,12 +6,12 @@
 # We have made an assumption here that delivery rules can either be present or not
 # because a basket could also be pick up instead of delivered
 class Basket
-  attr_reader :items, :catalogue, :offers, :delivery_rule
+  attr_reader :items, :catalogue, :offers, :delivery_rules
 
-  def initialize(catalogue:, delivery_rules:, offer:)
+  def initialize(catalogue:, delivery_rules:, offers:)
     @catalogue = catalogue
     @delivery_rules = delivery_rules
-    @offers = offer
+    @offers = offers
     @items = []
   end
 
@@ -25,10 +25,10 @@ class Basket
 
   def total
     subtotal = calculate_sub_total
-    discount = apply_offer
-    subtotal_after_discount = subtotal - discount
+    discount = apply_offer.round(2)
+    subtotal_after_discount = (subtotal - discount)
     delivery = calculate_delivery_charges(subtotal_after_discount)
-    ((subtotal_after_discount + delivery) / 100.0).round(2)
+    (subtotal_after_discount + delivery).round(2)
   end
 
   def calculate_sub_total
@@ -37,11 +37,11 @@ class Basket
 
   def apply_offer
     # retrun 0 incase there is not offer present
-    offers ?  offers.sum { |offer| offer.apply(self) } : 0
+    offers ?  offers.sum { |offer| offer.apply(self) } : 0.0
   end
 
   def calculate_delivery_charges(subtotal_after_discount)
     # assuming the basket is pickup-only in that case no delivery rules will be applied
-    delivery_rule ? delivery_rule.calculate(subtotal_after_discount) : 0
+    delivery_rules ? delivery_rules.calculate(subtotal_after_discount) : 0.0
   end
 end
