@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require_relative 'offer'
 
 # lib/offers/buy_one_get_half_offer.rb
 class BuyOneGetHalfOffer < Offer

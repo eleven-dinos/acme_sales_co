@@ -16,7 +16,14 @@
 $LOAD_PATH.unshift File.expand_path('../lib', __dir__)
 
 require 'product'
+require 'catalogue'
+require 'tiered_delivery_rule'
+require 'basket_item'
+require 'offers/buy_one_get_half_offer'
+require 'offers/offer'
+require 'basket'
 require 'errors/product_error'
+require 'errors/basket_error'
 RSpec.configure do |config|  
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
